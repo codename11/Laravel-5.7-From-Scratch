@@ -12,7 +12,7 @@
             
                 <a href="/projects/{{$project->id}}/edit" class="btn btn-info" style="margin-bottom: 10px;">Edit</a>
         
-            @endif
+        @endif
     @endif
 
     @if($project->tasks->count())
@@ -26,7 +26,11 @@
                             {{ csrf_field() }}
                             <div class="form-group form-check">
                                 <label class="form-check-label" for="completed" style="{{$task->completed ? "text-decoration:line-through;" : ""}}">
-                                    <input onChange="this.form.submit()" class="form-check-input" name="completed" type="checkbox" {{$task->completed ? "checked" : ""}}>
+                                    @if(!Auth::guest())
+                                        @if(Auth::user()->id == $project->user_id)
+                                            <input onChange="this.form.submit()" class="form-check-input" name="completed" type="checkbox" {{$task->completed ? "checked" : ""}}>
+                                        @endif
+                                    @endif
                                     {{$task->description}}
                                 </label>
                             </div>
@@ -72,7 +76,7 @@
             </div>
         </form>
 
-    @endif
+        @endif
     @endif
 
     @if($errors->any()>0)

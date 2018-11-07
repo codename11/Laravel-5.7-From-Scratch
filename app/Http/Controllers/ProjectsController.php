@@ -19,6 +19,7 @@ class ProjectsController extends Controller
     {   /*Postavi autorizaciju za sve osim za index i show, 
         odnosno za pronalazenje i prikazivanje.*/
         $this->middleware('auth')->except(['index', 'show']);
+        $this->middleware('auth')->only(['update', 'store','destroy','edit']);
         /*Ovo znaci da ce traziti autorizaciju 
         za sve operacije, osim za indeksiranje 
         i prikazivanje postova. Dakle svako moze da 
@@ -30,7 +31,7 @@ class ProjectsController extends Controller
     public function index()
     {
         $projects = Project::orderBy("created_at", "desc")->paginate(2);
-        
+        //$projects = Project::where("user_id", auth()->id())->paginate(2);
         return view("projects.index")->with("projects", $projects);
         //$projects = Project::all();
         //return view("projects/index")->withProjects($projects);
@@ -94,7 +95,23 @@ class ProjectsController extends Controller
      */
     
     public function show(Project $project)
-    {   //$project = Project::findOrFail($id);
+    {   
+        /*Ukoliko ajdi trenutno ulogovanog korisnika
+        nije isti kao korisnika ciji je ovo projekat,
+        abortuj sa 403 greskom.*/
+        /*if($project->user_id !== auth()->id()){
+            abort(403);
+        }
+        else{
+            return view("projects.show", compact("project"));
+        }*/
+        /*Abortira ukoliko(jeste) ajdi projekta nije isti 
+        kao ajdi trenutnog korisnika.*/
+        //abort_if($project->user_id !== auth()->id(), 403);
+        /*Abortira ukoliko ajdi projekta je isti 
+        kao ajdi trenutnog korisnika.*/
+        //abort_unless($project->user_id === auth()->id(), 403);
+        //$project = Project::findOrFail($id);
         return view("projects.show", compact("project"));
     }
 
