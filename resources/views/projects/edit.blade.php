@@ -16,7 +16,7 @@
 
         <div class="form-group">
             <label for="description">Description</label>
-            <textarea class="form-control" name="description" placeholder="Project description" required>{{$project->description}}</textarea>
+            <textarea class="form-control" id="article-ckeditor" name="description" placeholder="Project description" required>{{$project->description}}</textarea>
         </div>
         
         <button type="submit" class="btn btn-primary">Update Project</button>

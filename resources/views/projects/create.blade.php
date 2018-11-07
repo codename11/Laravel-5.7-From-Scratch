@@ -20,7 +20,7 @@
         </div>
         <div class="form-group">
             <label for="description">Description:</label>
-            <textarea class="form-control {{$errDesc}}" name="description" placeholder="Project description" required>{{old('description')}}</textarea>
+            <textarea id="article-ckeditor" class="form-control {{$errDesc}}" name="description" placeholder="Project description" required>{{old('description')}}</textarea>
         </div>
         <div>
             <button type="submit" class="btn btn-primary">Create Project</button>
