@@ -1,5 +1,7 @@
 @extends("layout")
 
+@section("title", "All Projects")
+
 @section("content")
         
         <h1>Projects</h1>
@@ -11,5 +13,5 @@
                 </li>
             @endforeach
         </ul>
-
+        {{$projects->links()}}<!--Ovo je za paginaciju.-->
 @endsection

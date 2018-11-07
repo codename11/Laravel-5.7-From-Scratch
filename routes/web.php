@@ -1,5 +1,5 @@
 <?php
-
+use Illuminate\Filesystem\Filesystem;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -10,6 +10,8 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+//app(Filesystem::class)
 
 Route::get('/', "PagesController@index");
 Route::get('/about', "PagesController@about");
@@ -49,4 +51,9 @@ Route::delete("/projects/{project}/update", "ProjectsController@destroy");
 
     return view('welcome')->withTasks($tasks);
 });*/
+
+
+Auth::routes();
+
+Route::get('/dashboard', 'DashboardController@index');
 

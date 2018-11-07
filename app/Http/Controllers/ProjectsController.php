@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use App\Project;
+use Illuminate\Filesystem\Filesystem;
 
 class ProjectsController extends Controller
 {
@@ -13,10 +14,26 @@ class ProjectsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
+    public function __construct()
+    {   /*Postavi autorizaciju za sve osim za index i show, 
+        odnosno za pronalazenje i prikazivanje.*/
+        $this->middleware('auth')->except(['index', 'show']);
+        /*Ovo znaci da ce traziti autorizaciju 
+        za sve operacije, osim za indeksiranje 
+        i prikazivanje postova. Dakle svako moze da 
+        gleda postove, ali samo trenutno ulogovani 
+        korisnik moze editovati i brisati 
+        i to samo svoje postove.*/
+    }
+
     public function index()
     {
-        $projects = Project::all();
-        return view("projects/index")->withProjects($projects);
+        $projects = Project::orderBy("created_at", "desc")->paginate(2);
+        
+        return view("projects.index")->with("projects", $projects);
+        //$projects = Project::all();
+        //return view("projects/index")->withProjects($projects);
         //return $projects;//Vraca json.
     }
 
@@ -58,7 +75,7 @@ class ProjectsController extends Controller
         $project->title = $request->title;
         $project->description = $request->description;
         $project->save();*/
-        /*'Settings' za validaciju.*/
+        /*'Settings' za validaciju sa serverske strane.*/
         $validated = request()->validate([
             /*Da je required i da je minimum tri slova uneseno.*/
             "title" => ["required", "min:3", "max: 255"],
@@ -75,10 +92,16 @@ class ProjectsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+    
     public function show(Project $project)
     {   //$project = Project::findOrFail($id);
         return view("projects.show", compact("project"));
     }
+
+    /*public function show(Filesystem $file)
+    {   
+        dd($file);
+    }*/
 
     /**
      * Show the form for editing the specified resource.

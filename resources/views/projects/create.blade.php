@@ -1,5 +1,7 @@
 @extends("layout")
 
+@section("title", "Create Project")
+
 @section("content")
         
     <h1>Create a new Project</h1>

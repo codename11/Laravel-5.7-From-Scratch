@@ -1,5 +1,7 @@
 @extends("layout")
 
+@section("title", "Edit Project")
+
 @section("content")
     <h1 class="title">Edit Project</h1>
 

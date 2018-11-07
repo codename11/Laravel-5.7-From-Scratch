@@ -82,9 +82,22 @@ class ProjectTasksController extends Controller
     {
         //dd(request()->all());
         //dd($task);
-        $task->update([
+        //funkcija completed u modelu.
+        //$task->completed(request()->has("completed"));
+
+        /*if(request()->has("completed")){
+            $task->complete();
+        }
+        else{
+            $task->incomplete();
+        }*/
+
+        //request()->has("completed") ? $task->complete() : $task->incomplete();
+        $method = request()->has("completed") ? "complete" : "incomplete";
+        $task->$method();
+        /*$task->update([
             "completed" => request()->has("completed")
-        ]);
+        ]);*/
 
         return back();
     }
